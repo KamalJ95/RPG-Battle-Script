@@ -46,8 +46,8 @@ class Person:
     def get_mp(self):
         return self.mp
 
-    def get_max_mp(self):
-        return self.get_max_mp
+    def get_maxmp(self):
+        return self.maxmp
 
     def reduce_mp(self,cost):
         self.mp -= cost
