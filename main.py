@@ -1,5 +1,14 @@
 from classes.game import Person, bcolours
 from classes.magic import Spell
+from classes.inventory import Item
+
+"""Create some Items"""
+potion = Item("Potion", "potion", "Heals 50 HP", 50)
+hipotion = Item("Hi-Potion", "potion", "Heals 100 HP", 100)
+superpotion = Item("Super-Potion", "potion", "Heals 500 HP", 500)
+elixer = Item("Elixer", "elixer", "Fully restores HP/MP of one party member.", 9999)
+hielixer = Item("Mega Elixer", "elixer", "Fully restores party HP/MP", 9999)
+grenade = Item("Grenade", "attack", "Deals 500 damage.", 500)
 
 
 '''Black magic'''
@@ -13,8 +22,12 @@ quake = Spell("Quake", 14, 140, "black")
 cure = Spell("Cure", 12, 120, "white")
 cura = Spell("Cura", 18, 200, "white")
 
-player = Person(460,65,60,34, [fire, thunder, blizzard, meteor, quake, cure, cura])
-enemy = Person(1200,65,45,25, [])
+magic = [fire, thunder, blizzard, meteor, quake, cure, cura]
+player_items = [{"item" : potion, "quantity" : 5}, {"item" : hipotion, "quantity" : 5}, {"item" : superpotion, "quantity" : 3},
+                {"item": elixer, "quantity": 15,},{"item" : hielixer, "quantity" : 5}, {"item" : grenade, "quantity" : 5}]
+
+player = Person(460,65,60,34, magic, player_items)
+enemy = Person(1200,65,45,25, [], [])
 
 running = True
 
@@ -33,9 +46,15 @@ while running:
     elif index == 1:
         player.choose_magic()
         magic_choice = int(input("Choose Magic:")) - 1
+
+        if magic_choice == -1:
+            continue
+
         spell = player.magic[magic_choice]
         magic_dmg = spell.generate_damage()
         current_mp = player.get_mp()
+
+
 
 
         if spell.cost > current_mp:
@@ -51,6 +70,31 @@ while running:
             enemy.take_damage(magic_dmg)
             print(bcolours.OKBLUE + "\nSpell: " + spell.name + " deals " + str(magic_dmg) + " points of damage!" + bcolours.ENDC)
 
+    elif index == 2:
+            player.choose_items()
+            item_choice = int(input("Choose Item:")) - 1
+
+            if item_choice == -1:
+                continue
+
+            item = player.items[item_choice]["item"]
+
+            if player.items[item_choice]["quantity"] == 0:
+                print(bcolours.FAIL + "\n", "None left..."+ bcolours.ENDC)
+                continue
+
+            player.items[item_choice]["quantity"] -= 1
+
+            if item.type == "potion":
+                player.heal(item.prop)
+                print(bcolours.OKGREEN + "\n" + item.name + " heals for", str(item.prop) + "HP"+ bcolours.ENDC)
+            elif item.type == "elixer":
+                player.hp = player.maxhp
+                player.mp = player.maxmp
+                print(bcolours.OKGREEN + "\n" + item.name + " Fully restores HP and MP!" + bcolours.ENDC)
+            elif item.type == "attack":
+                enemy.take_damage(item.prop)
+                print(bcolours.FAIL + "\n" + item.name + " Deals: " + str(item.prop) + " of damage!" + bcolours.ENDC)
 
 
 
