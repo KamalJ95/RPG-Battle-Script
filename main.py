@@ -77,6 +77,7 @@ while running:
             if item_choice == -1:
                 continue
 
+
             item = player.items[item_choice]["item"]
 
             if player.items[item_choice]["quantity"] == 0:
