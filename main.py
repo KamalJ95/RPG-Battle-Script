@@ -2,6 +2,21 @@ from classes.game import Person, bcolours
 from classes.magic import Spell
 from classes.inventory import Item
 
+print("\n\n")
+print("NAME                 HP                                    MP")
+print("                          _________________________             __________  ")
+print(bcolours.BOLD + "Will Day:        "+
+     " 460/460|" + bcolours.OKGREEN + "█████████████████████████" + bcolours.ENDC + "|     " + "65/65 |" + bcolours.OKBLUE + "██████████" +"| " + bcolours.ENDC)
+print("                          _________________________             __________  ")
+print(bcolours.BOLD + "Will Day:        "+
+     " 460/460|" + bcolours.OKGREEN + "█████████████████████████" + bcolours.ENDC + "|     " + "65/65 |" + bcolours.OKBLUE + "██████████" +"| " + bcolours.ENDC)
+print("                          _________________________             __________  ")
+print(bcolours.BOLD + "Will Day:        "+
+     " 460/460|" + bcolours.OKGREEN + "█████████████████████████" + bcolours.ENDC + "|     " + "65/65 |" + bcolours.OKBLUE + "██████████" +"| " + bcolours.ENDC)
+
+
+
+
 """Create some Items"""
 potion = Item("Potion", "potion", "Heals 50 HP", 50)
 hipotion = Item("Hi-Potion", "potion", "Heals 100 HP", 100)
