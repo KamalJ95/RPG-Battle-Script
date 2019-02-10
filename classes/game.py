@@ -14,7 +14,7 @@ class bcolours:
 
 
 class Person:
-    def __init__(self, hp, mp, atk, df, magic, items):
+    def __init__(self, name, hp, mp, atk, df, magic, items):
         self.maxhp = hp
         self.hp = hp
         self.maxmp = mp
@@ -25,6 +25,7 @@ class Person:
         self.magic = magic
         self.actions = ["Attack", "Magic", "Items"]
         self.items = items
+        self.name = name
 
     def generate_Damage(self):
         return random.randrange(self.atkl,self.atkh)
@@ -57,24 +58,79 @@ class Person:
 
     def choose_action(self):
         i = 1
-        print("\n", bcolours.OKBLUE + bcolours.BOLD + "Actions" + bcolours.ENDC)
+        print("\n" +  "    " + bcolours.BOLD + self.name + bcolours.ENDC)
+        print(bcolours.OKBLUE + bcolours.BOLD + "    Actions" + bcolours.ENDC)
         for item in self.actions:
-            print("    ",str(i) + ":", item)
+            print("        ",str(i) + ":", item)
             i+=1
 
     def choose_magic(self):
         i = 1
         print("\n", bcolours.OKBLUE + bcolours.BOLD + "Magic" + bcolours.ENDC)
         for spell in self.magic:
-            print("    ",str(i) + ":", spell.name, "(cost:", str(spell.cost) + ")")
+            print("        ",str(i) + ":", spell.name, "(cost:", str(spell.cost) + ")")
             i+=1
 
     def choose_items(self):
         i = 1
         print("\n", bcolours.OKGREEN + bcolours.BOLD + "Items" + bcolours.ENDC)
         for item in self.items:
-            print("    ",str(i) + ":", item["item"].name, ":", item["item"].description, "(x " + str(item["quantity"]) + ")")
+            print("        ",str(i) + ":", item["item"].name, ":", item["item"].description, "(x " + str(item["quantity"]) + ")")
             i+=1
+
+    def get_stats(self):
+        bar = ""
+        bar_ticks = (self.hp / self.maxhp) * 100 / 4
+        mp_bar = ""
+        mp_ticks = (self.mp / self.maxmp) * 100 / 10
+
+        while bar_ticks > 0:
+            bar += "█"
+            bar_ticks -= 1
+
+        while len(bar) < 25:
+            bar += " "
+
+        while mp_ticks > 0:
+            mp_bar += "█"
+            mp_ticks -= 1
+
+        while len(mp_bar) < 10:
+            mp_bar += " "
+
+        hp_string = str(self.hp) + "/" + str(self.maxhp)
+        current_hp = ""
+
+        if len(hp_string) < 9:
+            decreased = 9 - len(hp_string)
+
+            while decreased > 0:
+                current_hp += " "
+                decreased -= 1
+
+                current_hp += hp_string
+        else:
+                current_hp = hp_string
+
+
+        mp_string = str(self.mp) + "/" + str(self.maxmp)
+        current_mp = ""
+
+        if len(mp_string) < 7:
+            mpdecrease = 7 - len(mp_string)
+
+            while mpdecrease > 0:
+                current_mp += " "
+                mpdecrease -= 1
+
+                current_mp += mp_string
+        else:
+            current_mp = mp_string
+
+        print("                       _________________________                __________  ")
+        print(bcolours.BOLD + self.name + "     " + current_hp + "  |" + bcolours.OKGREEN + bar
+              + bcolours.ENDC + "|     " +
+              current_mp + "  |" + bcolours.OKBLUE + mp_bar + bcolours.ENDC + "|" )
 
 
 
