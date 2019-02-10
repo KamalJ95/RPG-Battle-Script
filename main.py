@@ -1,6 +1,7 @@
 from classes.game import Person, bcolours
 from classes.magic import Spell
 from classes.inventory import Item
+import random
 
 
 """Create some Items"""
@@ -8,7 +9,7 @@ potion = Item("Potion", "potion", "Heals 50 HP", 50)
 hipotion = Item("Hi-Potion", "potion", "Heals 100 HP", 100)
 superpotion = Item("Super-Potion", "potion", "Heals 500 HP", 500)
 elixer = Item("Elixer", "elixer", "Fully restores HP/MP of one party member.", 99999)
-hielixer = Item("Mega Elixer", "elixer", "Fully restores party HP/MP", 99999)
+hielixer = Item("MegaElixer", "elixer", "Fully restores party HP/MP", 99999)
 grenade = Item("Grenade", "attack", "Deals 500 damage.", 1000)
 
 
@@ -27,10 +28,10 @@ magic = [fire, thunder, blizzard, meteor, quake, cure, cura]
 player_items = [{"item" : potion, "quantity" : 5}, {"item" : hipotion, "quantity" : 5}, {"item" : superpotion, "quantity" : 3},
                 {"item": elixer, "quantity": 15,},{"item" : hielixer, "quantity" : 5}, {"item" : grenade, "quantity" : 5}]
 
-player1 = Person("Valos:", 3460,132,60,34, magic, player_items)
+player1 = Person("Riku: ", 3460,132,60,34, magic, player_items)
 player2 = Person("Sora: ", 1460,188,60,34, magic, player_items)
 player3 = Person("Roxas:", 2460,174,60,34, magic, player_items)
-enemy = Person("Darkness",6000,400,400,25, [], [])
+enemy = Person("Xehanort:   ",6000,400,400,25, [], [])
 
 players = [player1,player2,player3]
 
@@ -46,6 +47,10 @@ while running:
 
     for player in players:
         player.get_stats()
+
+    print("\n")
+
+    enemy.get_enemy_stats()
 
     for player in players:
         player.choose_action()
@@ -103,8 +108,14 @@ while running:
                     player.heal(item.prop)
                     print(bcolours.OKGREEN + "\n" + item.name + " heals for", str(item.prop) + "HP"+ bcolours.ENDC)
                 elif item.type == "elixer":
-                    player.hp = player.maxhp
-                    player.mp = player.maxmp
+
+                    if item.name == "MegaElixer":
+                        for i in players:
+                            i.hp = i.maxhp
+                            i.mp = i.maxmp
+                    else:
+                        player.hp = player.maxhp
+                        player.mp = player.maxmp
                     print(bcolours.OKGREEN + "\n" + item.name + " Fully restores HP and MP!" + bcolours.ENDC)
                 elif item.type == "attack":
                     enemy.take_damage(item.prop)
@@ -113,16 +124,11 @@ while running:
 
 
     enemy_choice = 1
+    target = random.randrange(0,3)
 
     enemy_dmg = enemy.generate_Damage()
-    player1.take_damage(enemy_dmg)
+    players[target].take_damage(enemy_dmg)
     print("Enemy attacks for:", enemy_dmg)
-
-
-    print('--------------------------------------')
-    print("Enemy HP: " + bcolours.FAIL + str(enemy.get_hp()) + "/" + str(enemy.get_max_hp()) + bcolours.ENDC + "\n")
-
-
 
     if enemy.get_hp() == 0:
         print(bcolours.OKGREEN + "You win!" + bcolours.ENDC)
