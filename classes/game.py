@@ -103,7 +103,7 @@ class Person:
         else:
             current_hp = hp_string
 
-        print("                         __________________________________________________")
+        print("                        __________________________________________________")
         print(bcolours.BOLD + self.name + " " + current_hp + "  |" + bcolours.FAIL + hp_bar
               + bcolours.ENDC + "|")
 
@@ -160,6 +160,18 @@ class Person:
         print(bcolours.BOLD + self.name + "     " + current_hp + "  |" + bcolours.OKGREEN + bar
               + bcolours.ENDC + "|     " +
               current_mp + "  |" + bcolours.OKBLUE + mp_bar + bcolours.ENDC + "|" )
+
+
+    def choose_target(self, enemies):
+        i = 1
+
+        print("'\n" + bcolours.FAIL + bcolours.BOLD + "    TARGET:" + bcolours.ENDC)
+        for enemy in enemies:
+            print("        " + str(i) + "." + enemy.name)
+            i += 1
+        choice = int(input("    Choose Target:")) - 1
+        return choice
+
 
 
 
